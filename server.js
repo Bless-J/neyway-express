@@ -47,7 +47,7 @@ app.post('/api/rooms/:code/join',(req,res)=>{
 app.post('/api/rooms/:code/start',(req,res)=>{
   const room=rooms.get(req.params.code.toUpperCase());
   if(!room||room.players[0].token!==req.body?.token) return res.status(403).json({error:'Only the host can start this room.'});
-  if(room.players.length!==2) return res.status(409).json({error:'Wait for your friend to join first.'});
+  if(room.players.length!==2||room.players.some(p=>!p.socket||p.socket.readyState!==WebSocket.OPEN)) return res.status(409).json({error:'Wait until your friend has joined and connected.'});
   if(room.status!=='waiting') return res.status(409).json({error:'This match has already started.'});
   room.status='playing'; room.deadline=Date.now()+Math.max(35,65-room.level*3)*1000;
   broadcast(room,'start'); res.json({ok:true,room:safeRoom(room)});
