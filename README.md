@@ -2,6 +2,8 @@
 
 **Captain Crumb’s Parcel Dash** is a self-contained, mobile-friendly parcel-sorting game. Choose one of ten levels, play at your own pace or race the clock, then challenge a friend in a same-device head-to-head match.
 
+▶️ **[Play Neyway Express](https://bless-j.github.io/neyway-express/)**
+
 ## Play
 
 Open `index.html` in a modern browser. No install, build step, server, account, or external asset is required.
