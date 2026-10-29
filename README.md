@@ -1,24 +1,36 @@
 # Neyway Express
 
-**Captain Crumb’s Parcel Dash** is a self-contained arcade sorting game. Choose one of ten levels, play at your own pace or race the clock, then challenge a friend in a same-device head-to-head match.
+Captain Crumb’s Parcel Dash is a mobile-friendly parcel sorting game with 10 levels, a relaxed solo mode, a timed solo mode, same-device turns, and **online PvP**.
 
-## Play locally
+## Online PvP: how to play
 
-Open `index.html` in a modern browser. No install, build step, server, account or external asset is required.
+1. Open the live game on your device and choose **Online PvP**.
+2. Tap **Create a room** and share the five-letter room code or invite link with your friend.
+3. Your friend opens the link (or chooses Online PvP and enters the code), then taps **Join**.
+4. When the host sees that the friend joined, tap **Start match**. Both players sort the same parcel pile at the same time. Live score and parcel progress are shared; the winner is shown when both players finish or the timer ends.
 
-## Publish with GitHub Pages
+Both players need the online service URL. GitHub Pages can host the solo game files, but it cannot run the realtime multiplayer server by itself.
 
-1. Create a GitHub repository and upload `index.html`, `README.md`, and `.nojekyll` to its root.
-2. In the repository, open **Settings → Pages**.
-3. Under **Build and deployment**, select **Deploy from a branch**, choose your default branch and the **/(root)** folder, then save.
-4. Open the Pages URL GitHub shows. The game is a static site and works under a repository subpath.
+## Deploy the online game
 
-## How to play
+This repo includes a Render Blueprint in `render.yaml`. Connect the GitHub repository to Render and create a Blueprint instance from that file. It provisions a free Node web service that serves the game page and handles room codes and WebSocket updates from the same URL. Once deployment finishes, open the service's `onrender.com` URL and share that link with players. No database, player account, or install is required.
 
-- Choose a mode: **Take it easy** has no clock and lets you retry; **Zip along** adds a countdown and express-parcel bonuses; **Head-to-head** gives two players the same randomized parcel pile in turn, then compares scores.
-- Pick an unlocked level from 1 to 10. Finishing a level unlocks the next. Higher levels add more parcels, less time and more special parcels.
-- Match each parcel’s destination. Wrap fragile parcels before sorting. Streaks increase points. Hints and pause are available; keyboard shortcuts are 1–3 for destinations, W to wrap, H for a hint, and Escape to pause.
+Render's free web services may go to sleep when idle, so the first visit after a quiet period can take a little time to wake up. Room data lives in server memory; a server restart ends any active rooms.
 
-## Privacy and multiplayer
+## Run on your computer
 
-Progress is saved only in this browser using local storage. Head-to-head is pass-and-play on one device; it does not connect remote players across the internet. GitHub Pages hosts static files and does not provide a multiplayer server. Remote online multiplayer would need a separate backend.
+Requires Node.js 20 or newer.
+
+```sh
+npm install
+npm start
+```
+
+Then open `http://localhost:3000`. For remote play, both players must use the deployed service URL; localhost is only reachable on your own computer.
+
+## Game controls
+
+- Choose a destination by tapping a station (or pressing 1, 2, or 3).
+- Wrap fragile parcels before sorting them. Use **Show me** for a hint and **Pause** to take a break.
+- Clean streaks increase points; fast express deliveries earn a bonus.
+- Solo progress is stored in this browser. Online rooms are temporary and are not saved after the server restarts.
